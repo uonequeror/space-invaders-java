@@ -16,6 +16,9 @@ public class Sprite {
     public boolean isVisible(){
         return visible;
     }
+    public void setVisible (boolean visible){
+        this.visible = visible;
+    }
     public void setImage(Image image){
         this.image = image;
     }
