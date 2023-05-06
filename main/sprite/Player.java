@@ -9,10 +9,7 @@ public class Player extends Sprite {
         initPlayer();
     }
     private void initPlayer(){
-        var playerImg = "src/images/player.png";
-        var ii = new ImageIcon(playerImg);
-        width = ii.getImage().getWidth(null);
-        setImage(ii.getImage());
+        setDefaultImage();
         int START_X = 182;
         setX(START_X);
         int START_Y = 340;
@@ -26,6 +23,17 @@ public class Player extends Sprite {
         if ((x + width) >= Commons.BOARD_WIDTH) {
             x = Commons.BOARD_WIDTH -  width;
         }
+    }
+    public void setMinigunImage(){
+        var playerMinigunImg = "src/images/player minigun.png";
+        var ii = new ImageIcon(playerMinigunImg);
+        setImage(ii.getImage());
+    }
+    public void setDefaultImage(){
+        var playerImg = "src/images/player.png";
+        var ii = new ImageIcon(playerImg);
+        width = ii.getImage().getWidth(null);
+        setImage(ii.getImage());
     }
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
@@ -47,5 +55,8 @@ public class Player extends Sprite {
     }
     public void addSpeed (){
         speed += 1;
+    }
+    public void setSpeed(int playerSpeed) {
+        speed = playerSpeed;
     }
 }

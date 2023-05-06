@@ -22,7 +22,6 @@ public class Board extends JPanel{
     private int killCounter = 0;
     private int lives = 3;
     private boolean inGame = true;
-    private boolean hasMethodRun = false;
     private String message = "Game Over";
     private String bonus = " - ";
     private int ammoNumber = 1;
@@ -153,17 +152,15 @@ public class Board extends JPanel{
         g.drawString(message, (Commons.BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2, Commons.BOARD_WIDTH / 2);
     }
     private void initAirDrop() {
-        if (!hasMethodRun) {
-            if (counter.getPoints() % 500 == 0 && counter.getPoints() != 0) {
+            if (counter.getPoints() >= 1500) {
                 airDrop.setVisible(true);
                 int playerX = player.getX();
                 int playerY = player.getY();
                 int airX = airDrop.getX();
                 int airY = airDrop.getY();
                 if (gameHelper.checkAirDropCollision(playerX, playerY, airX, airY)) {
-                   // Random random = new Random();
-                   // int randomNumber = random.nextInt(4) + 1;
-                    int randomNumber = 4;
+                    Random random = new Random();
+                    int randomNumber = random.nextInt(4) + 1;
                     switch (randomNumber) {
                         case 1 -> {
                             shot.increaseSpeed(5);
@@ -175,22 +172,25 @@ public class Board extends JPanel{
                         }
                         case 3 -> ammoNumber = 2;
                         case 4 -> {
-                            var playerMinigunImg = "src/images/player minigun.png";
-                            var ii = new ImageIcon(playerMinigunImg);
-                            player.setImage(ii.getImage());
+
                             ammoNumber = 3;
                             shot.setSpeed(30);
                         }
                         default -> System.out.println("error in random methods");
                     }
-
+                    counter.setPoints(0);
                     airDrop.setVisible(false);
                     airDrop.reset();
-                    hasMethodRun = true;
                 }
             }
-        }
-
+    }
+    private void removeBonus(){
+        shot.setSpeed(Commons.SHOOTING_SPEED);
+        player.setSpeed(Commons.PLAYER_MOVEMENT_SPEED);
+        ammoNumber = 1;
+        player.setDefaultImage();
+        bonus = " - ";
+        System.out.println("reset");
     }
     private void update(){
         //airdrop
@@ -216,8 +216,7 @@ public class Board extends JPanel{
             kills = 0;
         }
         if (killCounter == Commons.KILLS_RESET_COUNTER){
-//            removeBonus();
-            System.out.println("reset");
+            removeBonus();
             killCounter = 0;
             System.out.println(killCounter);
         }

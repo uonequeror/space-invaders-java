@@ -19,7 +19,5 @@ public interface Commons {
     int CHANCE = 5;
     int DELAY = 15;
     int AIRDROP_HEIGHT = 64;
-    int SHOT_HEIGHT = 128;
-    int SHOT_WIDTH = 128;
     int KILLS_RESET_COUNTER = NUMBER_OF_ALIENS_TO_DESTROY * 3;
 }
