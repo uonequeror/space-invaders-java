@@ -18,17 +18,17 @@ public class Shot extends Sprite {
     public void changeAmmo(int ammo){
         switch (ammo) {
             case 1 -> {
-                var defaultImg = "src/images/shot.png";
+                var defaultImg = "src/images/bullet/shot.png";
                 var standard = new ImageIcon(defaultImg);
                 setImage(standard.getImage());
             }
             case 2 -> {
-                var shotgunImg = "src/images/one bullet.png";
+                var shotgunImg = "src/images/bullet/one bullet.png";
                 var shotgun = new ImageIcon(shotgunImg);
                 setImage(shotgun.getImage());
             }
             case 3 -> {
-                var miniGunImg = "src/images/minigun bullet.png";
+                var miniGunImg = "src/images/bullet/minigun bullet.png";
                 var minigun = new ImageIcon(miniGunImg);
                 setImage(minigun.getImage());
             }

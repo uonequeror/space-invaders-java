@@ -25,12 +25,12 @@ public class Player extends Sprite {
         }
     }
     public void setMinigunImage(){
-        var playerMinigunImg = "src/images/player minigun.png";
+        var playerMinigunImg = "src/images/player/player minigun.png";
         var ii = new ImageIcon(playerMinigunImg);
         setImage(ii.getImage());
     }
     public void setDefaultImage(){
-        var playerImg = "src/images/player.png";
+        var playerImg = "src/images/player/player.png";
         var ii = new ImageIcon(playerImg);
         width = ii.getImage().getWidth(null);
         setImage(ii.getImage());
