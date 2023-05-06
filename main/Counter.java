@@ -12,12 +12,7 @@ public class Counter {
     public void addPoints(int amount) {
         points += amount;
     }
-    public void setPoints(int scorePoints) {
-        points = scorePoints;
-    }
-    public void resetCount(){
-        count = 0;
-    }
+    public void resetCount(){ count = 0; }
     public void increaseCount(int amount){
         count += amount;
     }
