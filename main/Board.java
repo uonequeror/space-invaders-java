@@ -24,7 +24,7 @@ public class Board extends JPanel{
     private boolean inGame = true;
     private String message = "Game Over";
     private String bonus = " - ";
-    private int ammoNumber = 1;
+    private int ammoType = 1;
     private Timer timer;
     public Board(){
         initBoard();
@@ -101,6 +101,8 @@ public class Board extends JPanel{
         g.setColor(Color.white);
         g.drawString("lives: " + lives, 287, 20);
         g.drawString("points: " + counter.getPoints(), 10, 20);
+        //time
+//        g.drawString("counter:  " + counter.getCount(), 15, 350);
         g.drawString(bonus, 130, 20);
     }
     private void drawLines(Graphics g) {
@@ -152,7 +154,7 @@ public class Board extends JPanel{
         g.drawString(message, (Commons.BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2, Commons.BOARD_WIDTH / 2);
     }
     private void initAirDrop() {
-            if (counter.getPoints() >= 1500) {
+            if (counter.getCount() >= 1500) {
                 airDrop.setVisible(true);
                 int playerX = player.getX();
                 int playerY = player.getY();
@@ -170,15 +172,15 @@ public class Board extends JPanel{
                             player.addSpeed();
                             bonus = " move speed + ";
                         }
-                        case 3 -> ammoNumber = 2;
+                        case 3 -> ammoType = 2;
                         case 4 -> {
 
-                            ammoNumber = 3;
+                            ammoType = 3;
                             shot.setSpeed(30);
                         }
                         default -> System.out.println("error in random methods");
                     }
-                    counter.setPoints(0);
+                    counter.resetCount();
                     airDrop.setVisible(false);
                     airDrop.reset();
                 }
@@ -187,7 +189,7 @@ public class Board extends JPanel{
     private void removeBonus(){
         shot.setSpeed(Commons.SHOOTING_SPEED);
         player.setSpeed(Commons.PLAYER_MOVEMENT_SPEED);
-        ammoNumber = 1;
+        ammoType = 1;
         player.setDefaultImage();
         bonus = " - ";
         System.out.println("reset");
@@ -231,7 +233,7 @@ public class Board extends JPanel{
                 int alienX = alien.getX();
                 int alienY = alien.getY();
                 if (alien.isVisible() && shot.isVisible()) {
-                    if (gameHelper.checkShotCollision(shotX, shotY, alienX, alienY, ammoNumber)) {
+                    if (gameHelper.checkShotCollision(shotX, shotY, alienX, alienY, ammoType)) {
                         var ii = new ImageIcon(explosionImg);
                         alien.setImage(ii.getImage());
                         alien.setX(shotX);
@@ -240,6 +242,7 @@ public class Board extends JPanel{
                         kills++;
                         killCounter++;
                         counter.addPoints(100);
+                        counter.increaseCount(100);
                         shot.die();
                     }
                 }
@@ -337,13 +340,13 @@ public class Board extends JPanel{
             player.keyPressed(e);
             int x = 0;
             int y = 0;
-            if (ammoNumber == 1) {
+            if (ammoType == 1) {
                 x = (player.getX() + 11);
                 y = player.getY();
-            } else if (ammoNumber == 2) {
+            } else if (ammoType == 2) {
                 x = (player.getX() - 50);
                 y = (player.getY() - 70);
-            } else if (ammoNumber == 3) {
+            } else if (ammoType == 3) {
                 x = (player.getX() + 4);
                 y = (player.getY() + 15);
             }
@@ -352,7 +355,7 @@ public class Board extends JPanel{
             if (key == KeyEvent.VK_SPACE) {
                 if (inGame) {
                     if (!shot.isVisible()) {
-                        shot = new Shot(x, y, ammoNumber);
+                        shot = new Shot(x, y, ammoType);
                     }
                 }
             }
