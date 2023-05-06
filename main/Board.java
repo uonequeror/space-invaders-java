@@ -162,7 +162,7 @@ public class Board extends JPanel{
                 int airY = airDrop.getY();
                 if (gameHelper.checkAirDropCollision(playerX, playerY, airX, airY)) {
                     Random random = new Random();
-                    int randomNumber = random.nextInt(4) + 1;
+                    int randomNumber = random.nextInt(3) + 1;
                     switch (randomNumber) {
                         case 1 -> {
                             shot.increaseSpeed(5);
@@ -172,11 +172,10 @@ public class Board extends JPanel{
                             player.addSpeed();
                             bonus = " move speed + ";
                         }
-                        case 3 -> ammoType = 2;
-                        case 4 -> {
-
-                            ammoType = 3;
+                        case 3 -> {
+                            ammoType = 2;
                             shot.setSpeed(30);
+                            bonus = " minigun ";
                         }
                         default -> System.out.println("error in random methods");
                     }
@@ -233,7 +232,7 @@ public class Board extends JPanel{
                 int alienX = alien.getX();
                 int alienY = alien.getY();
                 if (alien.isVisible() && shot.isVisible()) {
-                    if (gameHelper.checkShotCollision(shotX, shotY, alienX, alienY, ammoType)) {
+                    if (gameHelper.checkShotCollision(shotX, shotY, alienX, alienY)) {
                         var ii = new ImageIcon(explosionImg);
                         alien.setImage(ii.getImage());
                         alien.setX(shotX);
@@ -338,17 +337,13 @@ public class Board extends JPanel{
         @Override
         public void keyPressed(KeyEvent e) {
             player.keyPressed(e);
-            int x = 0;
-            int y = 0;
+            int x = player.getX();
+            int y = player.getY();
             if (ammoType == 1) {
-                x = (player.getX() + 11);
-                y = player.getY();
-            } else if (ammoType == 2) {
-                x = (player.getX() - 50);
-                y = (player.getY() - 70);
-            } else if (ammoType == 3) {
-                x = (player.getX() + 4);
-                y = (player.getY() + 15);
+                x += 11;
+            }  else if (ammoType == 2) {
+                x += 4;
+                y += 15;
             }
             else {System.out.println("error");}
             int key = e.getKeyCode();

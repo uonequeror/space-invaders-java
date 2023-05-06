@@ -6,15 +6,10 @@ public class GameHelper {
                 && objectX <= ((playerX + 45) + Commons.PLAYER_WIDTH)
                 && objectX >=  playerX - 45;
     }
-    public boolean checkShotCollision(int shotX, int shotY, int alienX, int alienY, int ammoType) {
-        if (ammoType == 1 || ammoType == 3) {
-            return shotX >= (alienX)
-                    && shotX <= (alienX + Commons.ALIEN_WIDTH)
-                    && shotY >= (alienY)
-                    && shotY <= (alienY + Commons.ALIEN_HEIGHT);
-        } else if (ammoType == 2) {
-            return shotY <= alienY + Commons.ALIEN_HEIGHT;
-        }
-        return false;
+    public boolean checkShotCollision(int shotX, int shotY, int alienX, int alienY) {
+        return shotX >= (alienX)
+                && shotX <= (alienX + Commons.ALIEN_WIDTH)
+                && shotY >= (alienY)
+                && shotY <= (alienY + Commons.ALIEN_HEIGHT);
     }
 }
