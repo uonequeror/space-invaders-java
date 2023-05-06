@@ -17,4 +17,10 @@ public class GameHelper {
         }
         return false;
     }
+    public boolean checkBombCollision(int bombX, int bombY, int playerX, int playerY) {
+        return bombX >= (playerX)
+                && bombX <= (playerX + Commons.PLAYER_WIDTH)
+                && bombY >= (playerY)
+                && bombY <= (playerY + Commons.PLAYER_HEIGHT);
+    }
 }

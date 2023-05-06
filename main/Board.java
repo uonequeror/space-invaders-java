@@ -19,7 +19,7 @@ public class Board extends JPanel{
     private  GameHelper gameHelper;
     private int direction = -1;
     private int kills = 0;
-    private int killCounter = 0;
+    private int InvisibleKillsCounter = 0;
     private int lives = 3;
     private boolean inGame = true;
     private String message = "Game Over";
@@ -101,8 +101,6 @@ public class Board extends JPanel{
         g.setColor(Color.white);
         g.drawString("lives: " + lives, 287, 20);
         g.drawString("points: " + counter.getPoints(), 10, 20);
-        //time
-//        g.drawString("counter:  " + counter.getCount(), 15, 350);
         g.drawString(bonus, 130, 20);
     }
     private void drawLines(Graphics g) {
@@ -154,7 +152,7 @@ public class Board extends JPanel{
         g.drawString(message, (Commons.BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2, Commons.BOARD_WIDTH / 2);
     }
     private void initAirDrop() {
-            if (counter.getCount() >= 1500) {
+            if (counter.getCount() >= Commons.POINTS_TO_INIT_AIRDROP) {
                 airDrop.setVisible(true);
                 int playerX = player.getX();
                 int playerY = player.getY();
@@ -172,11 +170,16 @@ public class Board extends JPanel{
                             player.addSpeed();
                             bonus = " move speed + ";
                         }
-                        case 3 -> ammoType = 2;
+                        case 3 -> {
+                            shot.setSpeed(3);
+                            ammoType = 2;
+                            bonus = " shotgun ";
+                        }
                         case 4 -> {
-
                             ammoType = 3;
                             shot.setSpeed(30);
+                            player.setMinigunImage();
+                            bonus = " minigun ";
                         }
                         default -> System.out.println("error in random methods");
                     }
@@ -186,22 +189,15 @@ public class Board extends JPanel{
                 }
             }
     }
-    private void removeBonus(){
+    private void resetBonus(){
         shot.setSpeed(Commons.SHOOTING_SPEED);
         player.setSpeed(Commons.PLAYER_MOVEMENT_SPEED);
         ammoType = 1;
         player.setDefaultImage();
         bonus = " - ";
-        System.out.println("reset");
     }
     private void update(){
-        //airdrop
-        initAirDrop();
-
-        if (airDrop.isVisible()){
-            airDrop.move();
-        }
-
+//general
         if (lives == 0) {
             inGame = false;
             timer.stop();
@@ -217,14 +213,18 @@ public class Board extends JPanel{
             alienInit();
             kills = 0;
         }
-        if (killCounter == Commons.KILLS_RESET_COUNTER){
-            removeBonus();
-            killCounter = 0;
-            System.out.println(killCounter);
+        if (InvisibleKillsCounter == Commons.KILLS_RESET_COUNTER){
+            resetBonus();
+            InvisibleKillsCounter = 0;
         }
-        //player
+//airdrop
+        initAirDrop();
+        if (airDrop.isVisible()){
+            airDrop.move();
+        }
+//player
         player.act();
-        //shot
+//shot
         String explosionImg = "src/images/explosion.png";
         if (shot.isVisible()) {
             int shotX = shot.getX();
@@ -240,7 +240,7 @@ public class Board extends JPanel{
                         alien.setY(shotY-20);
                         alien.setDying(true);
                         kills++;
-                        killCounter++;
+                        InvisibleKillsCounter++;
                         counter.addPoints(100);
                         counter.increaseCount(100);
                         shot.die();
@@ -255,19 +255,19 @@ public class Board extends JPanel{
                 shot.setY(y);
             }
         }
-        // aliens
+// aliens
         for (Alien alien : aliens) {
             int x = alien.getX();
             if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
                 direction = -1;
                 for (Alien a2 : aliens) {
-                    a2.setY(a2.getY() + Commons.GO_DOWN);
+                    a2.setY(a2.getY() + Commons.ALIENS_GO_DOWN);
                 }
             }
             if (x <= Commons.BORDER_LEFT && direction != 1) {
                 direction = 1;
                 for (Alien a : aliens) {
-                    a.setY(a.getY() + Commons.GO_DOWN);
+                    a.setY(a.getY() + Commons.ALIENS_GO_DOWN);
                 }
             }
         }
@@ -282,12 +282,12 @@ public class Board extends JPanel{
                 alien.act(direction);
             }
         }
-       // bombs
+// bombs
         var generator = new Random();
         for (Alien alien : aliens) {
-            int shot = generator.nextInt(1000);
+            int random = generator.nextInt(1000);
             Alien.Bomb bomb = alien.getBomb();
-            if (shot == Commons.CHANCE && alien.isVisible() && bomb.isDestroyed()) {
+            if (random == Commons.CHANCE_ALIEN_TO_BOMB && alien.isVisible() && bomb.isDestroyed()) {
                 bomb.setDestroyed(false);
                 bomb.setX(alien.getX());
                 bomb.setY(alien.getY());
@@ -297,11 +297,7 @@ public class Board extends JPanel{
             int playerX = player.getX();
             int playerY = player.getY();
             if (player.isVisible() && !bomb.isDestroyed()) {
-                if (bombX >= (playerX)
-                        && bombX <= (playerX + Commons.PLAYER_WIDTH)
-                        && bombY >= (playerY)
-                        && bombY <= (playerY + Commons.PLAYER_HEIGHT)) {
-
+                if (gameHelper.checkBombCollision(bombX, bombY, playerX, playerY)) {
                     if (lives > 0){
                         lives--;
                     } else {
@@ -344,8 +340,8 @@ public class Board extends JPanel{
                 x = (player.getX() + 11);
                 y = player.getY();
             } else if (ammoType == 2) {
-                x = (player.getX() - 50);
-                y = (player.getY() - 70);
+                x = player.getX() - 2;
+                y = (player.getY() + 15);
             } else if (ammoType == 3) {
                 x = (player.getX() + 4);
                 y = (player.getY() + 15);

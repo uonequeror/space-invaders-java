@@ -14,10 +14,11 @@ public interface Commons {
     int BOMB_HEIGHT = 5;
     int ALIEN_INIT_X = 150;
     int ALIEN_INIT_Y = 35;
-    int GO_DOWN = 7;
+    int ALIENS_GO_DOWN = 7;
     int NUMBER_OF_ALIENS_TO_DESTROY = 20;
-    int CHANCE = 5;
+    int CHANCE_ALIEN_TO_BOMB = 5;
     int DELAY = 15;
     int AIRDROP_HEIGHT = 64;
+    int POINTS_TO_INIT_AIRDROP = 1500;
     int KILLS_RESET_COUNTER = NUMBER_OF_ALIENS_TO_DESTROY * 3;
 }
