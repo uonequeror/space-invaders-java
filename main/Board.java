@@ -190,7 +190,6 @@ public class Board extends JPanel{
         ammoType = 1;
         player.setDefaultImage();
         bonus = " - ";
-        System.out.println("reset");
     }
     private void update(){
 //general
@@ -212,7 +211,6 @@ public class Board extends JPanel{
         if (InvisibleKillsCounter == Commons.KILLS_RESET_COUNTER){
             resetBonus();
             InvisibleKillsCounter = 0;
-            System.out.println(InvisibleKillsCounter);
         }
 //airdrop
         initAirDrop();
