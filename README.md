@@ -1,5 +1,5 @@
 # Space Invaders
-![Project screenshot](images/screenshot_example.png) 
+![Project screenshot](images/github/screenshot_example.png)
 
 **Space invaders game on java**
 
