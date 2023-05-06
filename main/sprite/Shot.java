@@ -1,7 +1,6 @@
 package main.sprite;
 import main.Commons;
 import javax.swing.*;
-
 public class Shot extends Sprite {
     private static int speed = Commons.SHOOTING_SPEED;
     public Shot() {}
@@ -23,11 +22,6 @@ public class Shot extends Sprite {
                 setImage(standard.getImage());
             }
             case 2 -> {
-                var shotgunImg = "src/images/bullet/one bullet.png";
-                var shotgun = new ImageIcon(shotgunImg);
-                setImage(shotgun.getImage());
-            }
-            case 3 -> {
                 var miniGunImg = "src/images/bullet/minigun bullet.png";
                 var minigun = new ImageIcon(miniGunImg);
                 setImage(minigun.getImage());
