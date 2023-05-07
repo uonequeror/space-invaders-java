@@ -3,7 +3,7 @@
 
 **Space invaders game on java**
 
-Added some additional changes (for example, weapon type selection)
+Added some additional functions (for example, weapon type selection)
 
 ## Usage
 
