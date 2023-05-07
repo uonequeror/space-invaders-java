@@ -334,10 +334,9 @@ public class Board extends JPanel{
             if (ammoType == 1) {
                 x += 11;
             }  else if (ammoType == 2) {
-                x += 4;
+                x += 3;
                 y += 15;
             }
-            else {System.out.println("error");}
             int key = e.getKeyCode();
             if (key == KeyEvent.VK_SPACE) {
                 if (inGame) {
